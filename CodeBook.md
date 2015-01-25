@@ -21,23 +21,17 @@ levels of Variable Activity come from “activity_labels.txt”
 
 So we will use Activity, Subject and Features as part of descriptive variable names for data in data frame.
 
-##Get the list of the file
+Get the list of the file
 
 fileslist <- file.path("UCI HAR Dataset")
 files<-list.files(fileslist, recursive=TRUE)
 
 
-#The files that will be used to load data are:
-#  test/subject_test.txt
-#  test/X_test.txt
-#  test/y_test.txt
-#  train/subject_train.txt
-#  train/X_train.txt
-#  train/y_train.txt
 
-#Read data from the targeted files   
 
-#Read the Activity files:     
+Read data from the targeted files   
+
+Read the Activity files:     
 dataActivityTest  <- read.table(file.path(fileslist, "test" , "Y_test.txt" ),header = FALSE)     
 dataActivityTrain <- read.table(file.path(fileslist, "train", "Y_train.txt"),header = FALSE)     
 
@@ -50,7 +44,7 @@ dataSubjectTest  <- read.table(file.path(fileslist, "test" , "subject_test.txt")
 
 
 
-#Read the Features files:     
+Read the Features files:     
 
 dataFeaturesTest  <- read.table(file.path(fileslist, "test" , "X_test.txt" ),header = FALSE)     
 dataFeaturesTrain <- read.table(file.path(fileslist, "train", "X_train.txt"),header = FALSE)     
