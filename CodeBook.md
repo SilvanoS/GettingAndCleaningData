@@ -87,7 +87,7 @@ names(subData)<-gsub("Gyro", "Gyroscope", names(subData))
 names(subData)<-gsub("Mag", "Magnitude", names(subData))         
 names(subData)<-gsub("BodyBody", "Body", names(subData))           
 
-#STEP 5: Creates a second,independent tidy data set and ouput it     
+#STEP 5: Creates a second, independent tidy data set and ouput it     
 
 library(plyr);     
 subData2<-aggregate(. ~subject + activity, subData, mean)            
