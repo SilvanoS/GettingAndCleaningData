@@ -21,21 +21,48 @@ levels of Variable Activity come from “activity_labels.txt”
 
 So we will use Activity, Subject and Features as part of descriptive variable names for data in data frame.
 
+##Get the list of the file
+
+fileslist <- file.path("UCI HAR Dataset")
+files<-list.files(fileslist, recursive=TRUE)
+
+
+#The files that will be used to load data are:
+#  test/subject_test.txt
+#  test/X_test.txt
+#  test/y_test.txt
+#  train/subject_train.txt
+#  train/X_train.txt
+#  train/y_train.txt
+
+#Read data from the targeted files   
+
+#Read the Activity files:     
+dataActivityTest  <- read.table(file.path(fileslist, "test" , "Y_test.txt" ),header = FALSE)     
+dataActivityTrain <- read.table(file.path(fileslist, "train", "Y_train.txt"),header = FALSE)     
+
+
+
+#Read the Subject files:     
+
+dataSubjectTrain <- read.table(file.path(fileslist, "train", "subject_train.txt"),header = FALSE)     
+dataSubjectTest  <- read.table(file.path(fileslist, "test" , "subject_test.txt"),header = FALSE)     
+
+
+
+#Read the Features files:     
+
+dataFeaturesTest  <- read.table(file.path(fileslist, "test" , "X_test.txt" ),header = FALSE)     
+dataFeaturesTrain <- read.table(file.path(fileslist, "train", "X_train.txt"),header = FALSE)     
+
 STEP 2: Merges the training and the test sets to create one data set:
 
-1.Concatenate the data tables by rows    
-dataSubject <- rbind(dataSubjectTrain, dataSubjectTest)     
-dataActivity<- rbind(dataActivityTrain, dataActivityTest)     
-dataFeatures<- rbind(dataFeaturesTrain, dataFeaturesTest)      
+1.Concatenate the data tables by rows (using rbind function)   
+2.set names to variables           
+3.Merge columns to get the data frame Data for all data (using cbind function)           
 
-2.set names to variables      
-names(dataSubject)<-c("subject")     
-names(dataActivity)<- c("activity")      
-dataFeaturesNames <- read.table(file.path(path_rf, "features.txt"),head=FALSE)      
-names(dataFeatures)<- dataFeaturesNames$V2      
+STEP 3: Extracts only the measurements on the mean and standard deviation for each measurement.
+For this purpose we subset Names of Features by measurements on the mean and standard deviation
 
-3.Merge columns to get the data frame Data for all data      
-dataCombine <- cbind(dataSubject, dataActivity)      
-Data <- cbind(dataFeatures, dataCombine)      
 
 
