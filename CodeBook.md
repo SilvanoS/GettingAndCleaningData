@@ -1,6 +1,6 @@
 # CodeBook
 
- STEP 1: Read data from the targeted files:
+ #STEP 1: Read data from the targeted files:
 
 The files we have to analyze are stored in a folder called 'UCI HAR Dataset'.  
 See the README.txt file for the detailed information on the dataset.    
@@ -37,7 +37,7 @@ dataActivityTrain <- read.table(file.path(fileslist, "train", "Y_train.txt"),hea
 
 
 
-#Read the Subject files:     
+Read the Subject files:     
 
 dataSubjectTrain <- read.table(file.path(fileslist, "train", "subject_train.txt"),header = FALSE)     
 dataSubjectTest  <- read.table(file.path(fileslist, "test" , "subject_test.txt"),header = FALSE)     
@@ -49,14 +49,46 @@ Read the Features files:
 dataFeaturesTest  <- read.table(file.path(fileslist, "test" , "X_test.txt" ),header = FALSE)     
 dataFeaturesTrain <- read.table(file.path(fileslist, "train", "X_train.txt"),header = FALSE)     
 
-STEP 2: Merges the training and the test sets to create one data set:
+#STEP 2: Merges the training and the test sets to create one data set:
 
 1.Concatenate the data tables by rows (using rbind function)   
 2.set names to variables           
 3.Merge columns to get the data frame Data for all data (using cbind function)           
 
-STEP 3: Extracts only the measurements on the mean and standard deviation for each measurement.
-For this purpose we subset Names of Features by measurements on the mean and standard deviation
+#STEP 3: Extracts only the measurements on the mean and standard deviation for each measurement.
+For this purpose we subset Names of Features by measurements on the mean and standard deviation.  
+
+subdataFeaturesNames<-dataFeaturesNames$V2[grep("mean\\(\\)|std\\(\\)", dataFeaturesNames$V2)]
+
+Subset the data frame Data by seleted names of Features
+
+selectedNames<-c(as.character(subdataFeaturesNames), "subject", "activity" )
+subData<-subset(Data,select=selectedNames)
+
+#STEP 4: Uses descriptive activity names to name the activities in the data set   
+according with descriptive activity names from "activity_labels.txt"    
+
+subData$activity <- as.character(subData$activity)     
+subData$activity[subData$activity == 1] <- "Walking"       
+subData$activity[subData$activity == 2] <- "Walking Upstairs"            
+subData$activity[subData$activity == 3] <- "Walking Downs"    
+subData$activity[subData$activity == 5] <- "Standing"     
+subData$activity[subData$activity == 6] <- "Laying"      
+subData$activity <- as.factor(subData$activity)       
+
+
+
+Appropriately labels the data set with descriptive variable names     
+
+names(subData)<-gsub("^t", "time", names(subData))     
+names(subData)<-gsub("^f", "frequency", names(subData))      
+names(subData)<-gsub("Acc", "Accelerometer", names(subData))         
+names(subData)<-gsub("Gyro", "Gyroscope", names(subData))         
+names(subData)<-gsub("Mag", "Magnitude", names(subData))         
+names(subData)<-gsub("BodyBody", "Body", names(subData))              
+
+
+
 
 
 
