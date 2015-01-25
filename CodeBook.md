@@ -1,6 +1,6 @@
 # CodeBook
 
- #STEP 1: Read data from the targeted files:
+#STEP 1: Read data from the targeted files:
 
 The files we have to analyze are stored in a folder called 'UCI HAR Dataset'.  
 See the README.txt file for the detailed information on the dataset.    
@@ -85,7 +85,14 @@ names(subData)<-gsub("^f", "frequency", names(subData))
 names(subData)<-gsub("Acc", "Accelerometer", names(subData))         
 names(subData)<-gsub("Gyro", "Gyroscope", names(subData))         
 names(subData)<-gsub("Mag", "Magnitude", names(subData))         
-names(subData)<-gsub("BodyBody", "Body", names(subData))              
+names(subData)<-gsub("BodyBody", "Body", names(subData))           
+
+#STEP 5: Creates a second,independent tidy data set and ouput it     
+
+library(plyr);     
+subData2<-aggregate(. ~subject + activity, subData, mean)            
+subData2<-subData2[order(subData2$subject,subData2$activity),]          
+write.table(subData2, file = "tidydata_ss.txt",row.name=FALSE)               
 
 
 
